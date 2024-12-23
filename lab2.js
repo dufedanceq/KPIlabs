@@ -49,6 +49,11 @@ function asyncFilterParallelPromise(array, asyncCallback, maxParallel = 3) {
   return Promise.all(pool).then(() => array.filter((_, i) => results[i]));
 }
 
+async function asyncFilterAwait(array, asyncCallback) {
+  const results = await Promise.all(array.map(asyncCallback));
+  return array.filter((_, index) => results[index]);
+}
+
 const numbers = [5, 12, 8, 130, 44];
 asyncFilterPromise(numbers, greaterThan10).then((result) =>
   console.log("Filtered Numbers:", result)
