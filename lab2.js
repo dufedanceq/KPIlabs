@@ -30,7 +30,7 @@ asyncFilterPromise(numbers, greaterThan10).then((result) =>
   console.log("Filtered Numbers:", result)
 );
 
-async function isEvenWithDelay(num) {
+function isEvenWithDelay(num) {
   return new Promise((resolve) =>
     setTimeout(() => resolve(num % 2 === 0), 100)
   );
