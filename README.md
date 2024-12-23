@@ -21,3 +21,5 @@ asyncFilterPromise та asyncFilterAwait демонструють базову �
 asyncFilterDebouncePromise та asyncFilterDebounceAwait демонструють Debounce фільтрацію.
 
 asyncFilterParallelPromise та asyncFilterParallelAwait демонструють фільтрацію з обмеженнями паралелізму.
+
+## Task 3
