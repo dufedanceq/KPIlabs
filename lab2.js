@@ -54,6 +54,22 @@ async function asyncFilterAwait(array, asyncCallback) {
   return array.filter((_, index) => results[index]);
 }
 
+async function asyncFilterDebounceAwait(array, asyncCallback, debounceTime = 0) {
+  let lastExecutionTime = 0;
+
+  const debouncedCallback = async (item, index) => {
+    const now = Date.now();
+    const delay = Math.max(0, debounceTime - (now - lastExecutionTime));
+    await new Promise((resolve) => setTimeout(resolve, delay));
+    lastExecutionTime = Date.now();
+    return asyncCallback(item, index);
+  };
+
+  return asyncFilterAwait(array, debouncedCallback);
+}
+
+
+
 const numbers = [5, 12, 8, 130, 44];
 asyncFilterPromise(numbers, greaterThan10).then((result) =>
   console.log("Filtered Numbers:", result)
