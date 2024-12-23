@@ -25,16 +25,34 @@ function greaterThan10(num) {
   return new Promise((resolve) => setTimeout(() => resolve(num > 10), 100));
 }
 
-const numbers = [5, 12, 8, 130, 44];
-asyncFilterPromise(numbers, greaterThan10).then((result) =>
-  console.log("Filtered Numbers:", result)
-);
-
 function isEvenWithDelay(num) {
   return new Promise((resolve) =>
     setTimeout(() => resolve(num % 2 === 0), 100)
   );
 }
+
+function asyncFilterParallelPromise(array, asyncCallback, maxParallel = 3) {
+  const results = [];
+  let index = 0;
+
+  function processNext() {
+    if (index >= array.length) return Promise.resolve(results);
+
+    const item = array[index++];
+    return asyncCallback(item, index - 1).then((result) => {
+      results.push(result);
+      if (index < array.length) return processNext();
+    });
+  }
+
+  const pool = Array.from({ length: maxParallel }).map(processNext);
+  return Promise.all(pool).then(() => array.filter((_, i) => results[i]));
+}
+
+const numbers = [5, 12, 8, 130, 44];
+asyncFilterPromise(numbers, greaterThan10).then((result) =>
+  console.log("Filtered Numbers:", result)
+);
 
 const items = [1, 2, 3, 4, 5];
 asyncFilterDebouncePromise(items, isEvenWithDelay, 200).then((result) =>
