@@ -68,14 +68,48 @@ async function asyncFilterDebounceAwait(array, asyncCallback, debounceTime = 0) 
   return asyncFilterAwait(array, debouncedCallback);
 }
 
+async function asyncFilterParallelAwait(array, asyncCallback, maxParallel = 3) {
+  const results = [];
+  let index = 0;
 
+  const processNext = async () => {
+    if (index >= array.length) return results;
+
+    const item = array[index++];
+    const result = await asyncCallback(item, index - 1);
+    results.push(result);
+    if (index < array.length) return processNext();
+  };
+
+  const pool = Array.from({ length: maxParallel }).map(processNext);
+  await Promise.all(pool);
+  return array.filter((_, i) => results[i]);
+}
 
 const numbers = [5, 12, 8, 130, 44];
+
 asyncFilterPromise(numbers, greaterThan10).then((result) =>
-  console.log("Filtered Numbers:", result)
+  console.log("Filtered Numbers with Promises:", result)
 );
 
 const items = [1, 2, 3, 4, 5];
+
 asyncFilterDebouncePromise(items, isEvenWithDelay, 200).then((result) =>
-  console.log("Filtered Evens with Debounce:", result)
+  console.log("Filtered Evens with Debounce (Promises):", result)
+);
+
+asyncFilterParallelPromise(numbers, greaterThan10, 2).then((result) =>
+  console.log("Filtered Numbers with Parallelism (Promises):", result)
+);
+
+asyncFilterAwait(numbers, greaterThan10).then((result) =>
+  console.log("Filtered Numbers with Async/Await:", result)
+);
+
+asyncFilterDebounceAwait(items, isEvenWithDelay, 200).then((result) =>
+  console.log("Filtered Evens with Debounce (Async/Await):", result)
+);
+
+asyncFilterParallelAwait(numbers, greaterThan10, 2).then((result) =>
+  console.log("Filtered Numbers with Parallelism (Async/Await):", result)
 );
