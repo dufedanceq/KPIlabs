@@ -12,4 +12,9 @@
 
 ## Task 2
 До функцій з першої лабораторної були додані функції:
-- якя працюють з Promise без використання async/await (asyncFilterPromise, asyncFilterDebouncePromise, asyncFilterParallelPromise(дозволяє фільтрувати елементи паралельно, обмежуючи кількість паралельно оброблювальних елементів)), функції 
+- якя працюють з Promise без використання async/await (asyncFilterPromise, asyncFilterDebouncePromise, asyncFilterParallelPromise(дозволяє фільтрувати елементи паралельно, обмежуючи кількість паралельно оброблювальних елементів)).
+- функції фільтрації з паралелізмом (asyncFilterParallelPromise (використовує чисті Promise для реалізації паралелізму) та asyncFilterParallelAwait (використовує async/await для реалізації паралелізму).
+- 
+  asyncFilterPromise та asyncFilterAwait демонструють базову фільтрацію.
+  asyncFilterDebouncePromise та asyncFilterDebounceAwait демонструють Debounce фільтрацію.
+  asyncFilterParallelPromise та asyncFilterParallelAwait демонструють фільтрацію з обмеженнями паралелізму.
