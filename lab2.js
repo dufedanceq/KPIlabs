@@ -21,7 +21,7 @@ function asyncFilterDebouncePromise(array, asyncCallback, debounceTime = 0) {
   return asyncFilterPromise(array, debouncedCallback);
 }
 
-async function greaterThan10(num) {
+function greaterThan10(num) {
   return new Promise((resolve) => setTimeout(() => resolve(num > 10), 100));
 }
 
