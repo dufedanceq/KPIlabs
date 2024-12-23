@@ -16,5 +16,7 @@
 - функції фільтрації з паралелізмом (asyncFilterParallelPromise (використовує чисті Promise для реалізації паралелізму) та asyncFilterParallelAwait (використовує async/await для реалізації паралелізму).
   
 asyncFilterPromise та asyncFilterAwait демонструють базову фільтрацію.
+
 asyncFilterDebouncePromise та asyncFilterDebounceAwait демонструють Debounce фільтрацію.
+
 asyncFilterParallelPromise та asyncFilterParallelAwait демонструють фільтрацію з обмеженнями паралелізму.
