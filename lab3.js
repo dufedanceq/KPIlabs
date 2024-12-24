@@ -48,3 +48,14 @@ const controller2 = new AbortController();
 asyncFilterDebounce(items, isEvenWithDelay, 200, controller2.signal)
   .then((result) => console.log("Filtered Evens with Debounce:", result))
   .catch((err) => console.log("Error:", err.message));
+
+setTimeout(() => {
+  console.log("Aborting operation for numbers...");
+  controller1.abort();
+}, 500);
+
+setTimeout(() => {
+  console.log("Aborting operation for items...");
+  controller2.abort();
+}, 700);
+
