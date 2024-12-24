@@ -44,6 +44,7 @@ async function isEvenWithDelay(num) {
 }
 
 const items = [1, 2, 3, 4, 5];
-asyncFilterDebounce(items, isEvenWithDelay, 200).then((result) =>
-  console.log("Filtered Evens with Debounce:", result)
-);
+const controller2 = new AbortController();
+asyncFilterDebounce(items, isEvenWithDelay, 200, controller2.signal)
+  .then((result) => console.log("Filtered Evens with Debounce:", result))
+  .catch((err) => console.log("Error:", err.message));
