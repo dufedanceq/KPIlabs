@@ -1,5 +1,11 @@
-async function asyncFilter(array, asyncCallback) {
-  const results = await Promise.all(array.map(asyncCallback));
+async function asyncFilter(array, asyncCallback, signal) {
+  const results = [];
+  for (let i = 0; i < array.length; i++) {
+    if (signal?.aborted) {
+      throw new Error('Operation aborted');
+    }
+    results.push(await asyncCallback(array[i], i));
+  }
   return array.filter((_, index) => results[index]);
 }
 
