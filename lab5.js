@@ -53,4 +53,35 @@ class Task {
     }
   }
 }
+//demo
+(async () => {
+  const eventEmitter = new EventEmitter();
 
+  const tasks = [
+    new Task(1, 1000, eventEmitter),
+    new Task(2, 2000, eventEmitter),
+    new Task(3, 1500, eventEmitter),
+  ];
+
+  eventEmitter.on("taskStatus", ({ id, status, error }) => {
+    if (status === "completed") {
+      console.log(`Task ${id} completed.`);
+    } else if (status === "aborted") {
+      console.log(`Task ${id} aborted.`);
+    } else if (status === "failed") {
+      console.log(`Task ${id} failed: ${error?.message}`);
+    } else {
+      console.log(`Task ${id} is ${status}.`);
+    }
+  });
+
+  console.log("Starting tasks...");
+  eventEmitter.emit("startTask", 1);
+  eventEmitter.emit("startTask", 2);
+  eventEmitter.emit("startTask", 3);
+
+  setTimeout(() => {
+    console.log("Aborting all tasks...");
+    eventEmitter.emit("abortAll");
+  }, 1500);
+})();
