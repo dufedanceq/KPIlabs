@@ -32,9 +32,10 @@ async function greaterThan10(num) {
 }
 
 const numbers = [5, 12, 8, 130, 44];
-asyncFilter(numbers, greaterThan10).then((result) =>
-  console.log("Filtered Numbers:", result)
-);
+const controller1 = new AbortController();
+asyncFilter(numbers, greaterThan10, controller1.signal)
+  .then((result) => console.log("Filtered Numbers:", result))
+  .catch((err) => console.log("Error:", err.message));
 
 async function isEvenWithDelay(num) {
   return new Promise((resolve) =>
