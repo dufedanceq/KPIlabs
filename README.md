@@ -23,3 +23,4 @@ asyncFilterDebouncePromise та asyncFilterDebounceAwait демонструют�
 asyncFilterParallelPromise та asyncFilterParallelAwait демонструють фільтрацію з обмеженнями паралелізму.
 
 ## Task 3
+В цьому завданні я використав код з завдання №1 
