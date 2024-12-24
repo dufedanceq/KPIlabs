@@ -9,10 +9,14 @@ async function asyncFilter(array, asyncCallback, signal) {
   return array.filter((_, index) => results[index]);
 }
 
-async function asyncFilterDebounce(array, asyncCallback, debounceTime = 0) {
+async function asyncFilterDebounce(array, asyncCallback, debounceTime = 0, signal) {
   let lastExecutionTime = 0;
 
   const debouncedCallback = async (item, index) => {
+    if (signal?.aborted) {
+      throw new Error('Operation aborted');
+    }
+
     const now = Date.now();
     const delay = Math.max(0, debounceTime - (now - lastExecutionTime));
     await new Promise((resolve) => setTimeout(resolve, delay));
@@ -20,7 +24,7 @@ async function asyncFilterDebounce(array, asyncCallback, debounceTime = 0) {
     return asyncCallback(item, index);
   };
 
-  return asyncFilter(array, debouncedCallback);
+  return asyncFilter(array, debouncedCallback, signal);
 }
 
 async function greaterThan10(num) {
